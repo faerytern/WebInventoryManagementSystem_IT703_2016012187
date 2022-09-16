@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:WebInventoryManagementSystem_IT703_2016012187Context"
+    }
+  }
+}
