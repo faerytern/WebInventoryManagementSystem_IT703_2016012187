@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebInventoryManagementSystem_IT703_2016012187.Data;
 
@@ -11,9 +12,10 @@ using WebInventoryManagementSystem_IT703_2016012187.Data;
 namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 {
     [DbContext(typeof(WebInventoryManagementSystem_IT703_2016012187Context))]
-    partial class WebInventoryManagementSystem_IT703_2016012187ContextModelSnapshot : ModelSnapshot
+    [Migration("20220917021316_AllModels")]
+    partial class AllModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,13 +103,13 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IncomingOrderId"), 1L, 1);
 
-                    b.Property<int?>("InventoryId")
+                    b.Property<int>("InventoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -116,7 +118,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                     b.Property<DateTime?>("ReceivedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("SupplierId")
+                    b.Property<int>("SupplierId")
                         .HasColumnType("int");
 
                     b.HasKey("IncomingOrderId");
@@ -138,10 +140,10 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InventoryId"), 1L, 1);
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -193,16 +195,16 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OutgoingOrderId"), 1L, 1);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InventoryId")
+                    b.Property<int>("InventoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -282,15 +284,21 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                 {
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Inventory", "Inventory")
                         .WithMany()
-                        .HasForeignKey("InventoryId");
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Supplier", "Supplier")
                         .WithMany()
-                        .HasForeignKey("SupplierId");
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Inventory");
 
@@ -303,11 +311,15 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                 {
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Location");
 
@@ -318,15 +330,21 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                 {
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Inventory", "Inventory")
                         .WithMany()
-                        .HasForeignKey("InventoryId");
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 
