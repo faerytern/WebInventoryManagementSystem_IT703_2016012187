@@ -22,7 +22,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // GET: IncomingOrders
         public async Task<IActionResult> Index()
         {
-            var webInventoryManagementSystem_IT703_2016012187Context = _context.IncomingOrder.Include(i => i.Inventory).Include(i => i.Product).Include(i => i.Supplier);
+            var webInventoryManagementSystem_IT703_2016012187Context = _context.IncomingOrder.Include(i => i.Inventory).Include(i => i.Supplier);
             return View(await webInventoryManagementSystem_IT703_2016012187Context.ToListAsync());
         }
 
@@ -36,7 +36,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
 
             var incomingOrder = await _context.IncomingOrder
                 .Include(i => i.Inventory)
-                .Include(i => i.Product)
                 .Include(i => i.Supplier)
                 .FirstOrDefaultAsync(m => m.IncomingOrderId == id);
             if (incomingOrder == null)
@@ -51,7 +50,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         public IActionResult Create()
         {
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId");
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId");
             ViewData["SupplierId"] = new SelectList(_context.Supplier, "SupplierId", "SupplierId");
             return View();
         }
@@ -61,7 +59,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IncomingOrderId,ProductId,Quantity,OrderedOn,ReceivedOn,SupplierId,InventoryId")] IncomingOrder incomingOrder)
+        public async Task<IActionResult> Create([Bind("IncomingOrderId,Quantity,OrderedOn,ReceivedOn,SupplierId,InventoryId")] IncomingOrder incomingOrder)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +68,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId", incomingOrder.InventoryId);
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", incomingOrder.ProductId);
             ViewData["SupplierId"] = new SelectList(_context.Supplier, "SupplierId", "SupplierId", incomingOrder.SupplierId);
             return View(incomingOrder);
         }
@@ -89,7 +86,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
                 return NotFound();
             }
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId", incomingOrder.InventoryId);
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", incomingOrder.ProductId);
             ViewData["SupplierId"] = new SelectList(_context.Supplier, "SupplierId", "SupplierId", incomingOrder.SupplierId);
             return View(incomingOrder);
         }
@@ -99,7 +95,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IncomingOrderId,ProductId,Quantity,OrderedOn,ReceivedOn,SupplierId,InventoryId")] IncomingOrder incomingOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("IncomingOrderId,Quantity,OrderedOn,ReceivedOn,SupplierId,InventoryId")] IncomingOrder incomingOrder)
         {
             if (id != incomingOrder.IncomingOrderId)
             {
@@ -127,7 +123,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId", incomingOrder.InventoryId);
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", incomingOrder.ProductId);
             ViewData["SupplierId"] = new SelectList(_context.Supplier, "SupplierId", "SupplierId", incomingOrder.SupplierId);
             return View(incomingOrder);
         }
@@ -142,7 +137,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
 
             var incomingOrder = await _context.IncomingOrder
                 .Include(i => i.Inventory)
-                .Include(i => i.Product)
                 .Include(i => i.Supplier)
                 .FirstOrDefaultAsync(m => m.IncomingOrderId == id);
             if (incomingOrder == null)

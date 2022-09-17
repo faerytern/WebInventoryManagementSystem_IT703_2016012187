@@ -49,8 +49,14 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "BrandId");
-            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId");
+            ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "Name");
+            //ViewData["CategoryId"] = from c in _context.Category
+            //                       select new SelectListItem
+            //                       {
+            //                           Text = $"{c.CategoryId} - {c.Name}",
+            //                           Value = c.CategoryId.ToString()
+            //                       };
             return View();
         }
 
@@ -67,8 +73,20 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "BrandId", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryId);
+            //ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "BrandId", product.BrandId);
+            ViewData["BrandId"] = from b in _context.Brand
+                                  select new SelectListItem
+                                  {
+                                      Text = $"{b.BrandId} - {b.Name}",
+                                      Value = b.BrandId.ToString()
+                                  };
+            //ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryId);
+            ViewData["CategoryId"] = from c in _context.Category
+                                     select new SelectListItem
+                                     {
+                                         Text = $"{c.CategoryId} - {c.Name}",
+                                         Value = c.CategoryId.ToString()
+                                     };
             return View(product);
         }
 
@@ -85,8 +103,20 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             {
                 return NotFound();
             }
-            ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "BrandId", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryId);
+            //ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "BrandId", product.BrandId);
+            ViewData["BrandId"] = from b in _context.Brand
+                                  select new SelectListItem
+                                  {
+                                      Value = b.BrandId.ToString(),
+                                      Text = $"{b.BrandId} - {b.ShortName} - {b.Name}"
+                                  };
+            //ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryId);
+            ViewData["CategoryId"] = from c in _context.Category
+                                     select new SelectListItem
+                                     {
+                                         Value = c.CategoryId.ToString(),
+                                         Text = $"{c.CategoryId} - {c.Name}"
+                                     };
             return View(product);
         }
 
@@ -122,8 +152,21 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "BrandId", product.BrandId);
-            ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryId);
+            //ViewData["BrandId"] = new SelectList(_context.Brand, "BrandId", "BrandId", product.BrandId);
+            //ViewData["CategoryId"] = new SelectList(_context.Category, "CategoryId", "CategoryId", product.CategoryId);
+            ViewData["BrandId"] = from b in _context.Brand
+                                  select new SelectListItem
+                                  {
+                                      Value = b.BrandId.ToString(),
+                                      Text = $"{b.BrandId} - {b.ShortName} - {b.Name}"
+                                  };
+            
+            ViewData["CategoryId"] = from c in _context.Category
+                                     select new SelectListItem
+                                     {
+                                         Value = c.CategoryId.ToString(),
+                                         Text = $"{c.CategoryId} - {c.Name}"
+                                     };
             return View(product);
         }
 
@@ -161,14 +204,14 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             {
                 _context.Product.Remove(product);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-          return _context.Product.Any(e => e.ProductId == id);
+            return _context.Product.Any(e => e.ProductId == id);
         }
     }
 }

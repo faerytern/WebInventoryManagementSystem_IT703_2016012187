@@ -5,10 +5,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 {
-    public partial class AllModels : Migration
+    public partial class rebuild1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Brand",
+                columns: table => new
+                {
+                    BrandId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Brand", x => x.BrandId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
@@ -104,8 +118,8 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                 {
                     InventoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -115,14 +129,12 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                         name: "FK_Inventory_Location_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Location",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "LocationId");
                     table.ForeignKey(
                         name: "FK_Inventory_Product_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Product",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProductId");
                 });
 
             migrationBuilder.CreateTable(
@@ -131,12 +143,11 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                 {
                     IncomingOrderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReceivedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SupplierId = table.Column<int>(type: "int", nullable: false),
-                    InventoryId = table.Column<int>(type: "int", nullable: false)
+                    SupplierId = table.Column<int>(type: "int", nullable: true),
+                    InventoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -145,20 +156,12 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                         name: "FK_IncomingOrder_Inventory_InventoryId",
                         column: x => x.InventoryId,
                         principalTable: "Inventory",
-                        principalColumn: "InventoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_IncomingOrder_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "InventoryId");
                     table.ForeignKey(
                         name: "FK_IncomingOrder_Supplier_SupplierId",
                         column: x => x.SupplierId,
                         principalTable: "Supplier",
-                        principalColumn: "SupplierId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "SupplierId");
                 });
 
             migrationBuilder.CreateTable(
@@ -167,12 +170,11 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                 {
                     OutgoingOrderId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OrderedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReceivedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    InventoryId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<int>(type: "int", nullable: true),
+                    InventoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,31 +183,18 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                         name: "FK_OutgoingOrder_Client_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Client",
-                        principalColumn: "ClientId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ClientId");
                     table.ForeignKey(
                         name: "FK_OutgoingOrder_Inventory_InventoryId",
                         column: x => x.InventoryId,
                         principalTable: "Inventory",
-                        principalColumn: "InventoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OutgoingOrder_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "InventoryId");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_IncomingOrder_InventoryId",
                 table: "IncomingOrder",
                 column: "InventoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IncomingOrder_ProductId",
-                table: "IncomingOrder",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IncomingOrder_SupplierId",
@@ -231,11 +220,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                 name: "IX_OutgoingOrder_InventoryId",
                 table: "OutgoingOrder",
                 column: "InventoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OutgoingOrder_ProductId",
-                table: "OutgoingOrder",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_BrandId",
@@ -270,6 +254,9 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "Brand");
 
             migrationBuilder.DropTable(
                 name: "Category");

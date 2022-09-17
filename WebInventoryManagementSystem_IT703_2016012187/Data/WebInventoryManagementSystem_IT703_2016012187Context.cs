@@ -14,15 +14,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Data
             : base(options)
         {
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // ON DELETE BEHAVIOUR IS WEIRD?
-            modelBuilder.Entity<IncomingOrder>()
-                .HasOne(io => io.Inventory)
-                .WithOne()
-                // How do I configure many HasOnes?
-                .OnDelete(DeleteBehavior.SetNull);
-        }
 
         public DbSet<WebInventoryManagementSystem_IT703_2016012187.Models.Brand> Brand { get; set; } = default!;
 

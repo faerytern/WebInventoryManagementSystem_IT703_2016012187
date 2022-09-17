@@ -12,8 +12,8 @@ using WebInventoryManagementSystem_IT703_2016012187.Data;
 namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 {
     [DbContext(typeof(WebInventoryManagementSystem_IT703_2016012187Context))]
-    [Migration("20220917023310_nullables")]
-    partial class nullables
+    [Migration("20220917034314_rebuild1")]
+    partial class rebuild1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,9 +109,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                     b.Property<DateTime>("OrderedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -124,8 +121,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                     b.HasKey("IncomingOrderId");
 
                     b.HasIndex("InventoryId");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("SupplierId");
 
@@ -204,9 +199,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                     b.Property<DateTime>("OrderedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -218,8 +210,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                     b.HasIndex("ClientId");
 
                     b.HasIndex("InventoryId");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("OutgoingOrder");
                 });
@@ -286,17 +276,11 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                         .WithMany()
                         .HasForeignKey("InventoryId");
 
-                    b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId");
 
                     b.Navigation("Inventory");
-
-                    b.Navigation("Product");
 
                     b.Navigation("Supplier");
                 });
@@ -326,15 +310,9 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
                         .WithMany()
                         .HasForeignKey("InventoryId");
 
-                    b.HasOne("WebInventoryManagementSystem_IT703_2016012187.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
                     b.Navigation("Client");
 
                     b.Navigation("Inventory");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WebInventoryManagementSystem_IT703_2016012187.Models.Product", b =>

@@ -22,7 +22,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // GET: OutgoingOrders
         public async Task<IActionResult> Index()
         {
-            var webInventoryManagementSystem_IT703_2016012187Context = _context.OutgoingOrder.Include(o => o.Client).Include(o => o.Inventory).Include(o => o.Product);
+            var webInventoryManagementSystem_IT703_2016012187Context = _context.OutgoingOrder.Include(o => o.Client).Include(o => o.Inventory);
             return View(await webInventoryManagementSystem_IT703_2016012187Context.ToListAsync());
         }
 
@@ -37,7 +37,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             var outgoingOrder = await _context.OutgoingOrder
                 .Include(o => o.Client)
                 .Include(o => o.Inventory)
-                .Include(o => o.Product)
                 .FirstOrDefaultAsync(m => m.OutgoingOrderId == id);
             if (outgoingOrder == null)
             {
@@ -52,7 +51,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         {
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "ClientId");
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId");
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId");
             return View();
         }
 
@@ -61,7 +59,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OutgoingOrderId,ProductId,Quantity,OrderedOn,ReceivedOn,ClientId,InventoryId")] OutgoingOrder outgoingOrder)
+        public async Task<IActionResult> Create([Bind("OutgoingOrderId,Quantity,OrderedOn,ReceivedOn,ClientId,InventoryId")] OutgoingOrder outgoingOrder)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +69,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             }
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "ClientId", outgoingOrder.ClientId);
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId", outgoingOrder.InventoryId);
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", outgoingOrder.ProductId);
             return View(outgoingOrder);
         }
 
@@ -90,7 +87,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             }
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "ClientId", outgoingOrder.ClientId);
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId", outgoingOrder.InventoryId);
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", outgoingOrder.ProductId);
             return View(outgoingOrder);
         }
 
@@ -99,7 +95,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OutgoingOrderId,ProductId,Quantity,OrderedOn,ReceivedOn,ClientId,InventoryId")] OutgoingOrder outgoingOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("OutgoingOrderId,Quantity,OrderedOn,ReceivedOn,ClientId,InventoryId")] OutgoingOrder outgoingOrder)
         {
             if (id != outgoingOrder.OutgoingOrderId)
             {
@@ -128,7 +124,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             }
             ViewData["ClientId"] = new SelectList(_context.Client, "ClientId", "ClientId", outgoingOrder.ClientId);
             ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId", outgoingOrder.InventoryId);
-            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", outgoingOrder.ProductId);
             return View(outgoingOrder);
         }
 
@@ -143,7 +138,6 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             var outgoingOrder = await _context.OutgoingOrder
                 .Include(o => o.Client)
                 .Include(o => o.Inventory)
-                .Include(o => o.Product)
                 .FirstOrDefaultAsync(m => m.OutgoingOrderId == id);
             if (outgoingOrder == null)
             {

@@ -20,6 +20,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Brand)
+                
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Category)
@@ -37,10 +38,10 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Brand.BrandId)
+                    @Html.DisplayFor(modelItem => item.Brand.BrandId) - @Html.DisplayFor(modelItem => item.Brand.ShortName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryId)
+                    @Html.DisplayFor(modelItem => item.Category.CategoryId) - @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
