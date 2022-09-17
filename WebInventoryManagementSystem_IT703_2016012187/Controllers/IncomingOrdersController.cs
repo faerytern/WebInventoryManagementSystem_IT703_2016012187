@@ -49,8 +49,8 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // GET: IncomingOrders/Create
         public IActionResult Create()
         {
-            ViewData["InventoryId"] = new SelectList(_context.Inventory, "InventoryId", "InventoryId");
-            ViewData["SupplierId"] = new SelectList(_context.Supplier, "SupplierId", "SupplierId");
+            ViewBag.InventoryId = new SelectList(_context.Inventory, "InventoryId", "InventoryId");
+            ViewBag.SupplierId = new SelectList(_context.Supplier, "SupplierId", "SupplierId");
             return View();
         }
 
