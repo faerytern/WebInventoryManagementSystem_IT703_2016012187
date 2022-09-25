@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WebInventoryManagementSystem_IT703_2016012187.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<WebInventoryManagementSystem_IT703_2016012187Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PCWebInventoryManagementSystem_IT703_2016012187Context") ?? throw new InvalidOperationException("Connection string 'WebInventoryManagementSystem_IT703_2016012187Context' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WebInventoryManagementSystem_IT703_2016012187Context") ?? throw new InvalidOperationException("Connection string 'WebInventoryManagementSystem_IT703_2016012187Context' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
