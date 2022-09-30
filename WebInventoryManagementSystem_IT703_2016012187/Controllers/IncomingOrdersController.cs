@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using WebInventoryManagementSystem_IT703_2016012187.Data;
 using WebInventoryManagementSystem_IT703_2016012187.Models;
@@ -22,7 +23,11 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // GET: IncomingOrders
         public async Task<IActionResult> Index()
         {
-            var webInventoryManagementSystem_IT703_2016012187Context = _context.IncomingOrder.Include(i => i.Inventory).Include(i => i.Supplier);
+            var webInventoryManagementSystem_IT703_2016012187Context = 
+                _context.IncomingOrder
+                .Include(i => i.Inventory)
+                .Include(i => i.Inventory.Location)
+                .Include(i => i.Supplier);
             return View(await webInventoryManagementSystem_IT703_2016012187Context.ToListAsync());
         }
 
@@ -36,6 +41,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
 
             var incomingOrder = await _context.IncomingOrder
                 .Include(i => i.Inventory)
+                .Include(i => i.Inventory.Location)
                 .Include(i => i.Supplier)
                 .FirstOrDefaultAsync(m => m.IncomingOrderId == id);
             if (incomingOrder == null)
@@ -169,6 +175,28 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         private bool IncomingOrderExists(int id)
         {
           return _context.IncomingOrder.Any(e => e.IncomingOrderId == id);
+        }
+        
+
+        public async Task<IActionResult> ConfirmArrival(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var incomingOrder = await _context.IncomingOrder.Include(i=> i.Inventory).FirstOrDefaultAsync(i=> i.IncomingOrderId == id);
+            if (incomingOrder == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                incomingOrder.ReceivedOn = DateTime.Now;
+                incomingOrder.Inventory.Quantity += incomingOrder.Quantity;
+                _context.SaveChanges();
+            }
+;
+            return RedirectToAction(nameof(Index));
         }
     }
 }

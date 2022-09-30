@@ -10,11 +10,18 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Data
 {
     public class WebInventoryManagementSystem_IT703_2016012187Context : DbContext
     {
-        public WebInventoryManagementSystem_IT703_2016012187Context (DbContextOptions<WebInventoryManagementSystem_IT703_2016012187Context> options)
+        public WebInventoryManagementSystem_IT703_2016012187Context(DbContextOptions<WebInventoryManagementSystem_IT703_2016012187Context> options)
             : base(options)
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            //base.OnModelCreating(builder);
+            builder.Entity<Inventory>()
+                .HasIndex(i => new { i.LocationId, i.ProductId })
+                .IsUnique();
+        }
         public DbSet<WebInventoryManagementSystem_IT703_2016012187.Models.Brand> Brand { get; set; } = default!;
 
         public DbSet<WebInventoryManagementSystem_IT703_2016012187.Models.Category> Category { get; set; }

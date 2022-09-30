@@ -22,7 +22,11 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // GET: OutgoingOrders
         public async Task<IActionResult> Index()
         {
-            var webInventoryManagementSystem_IT703_2016012187Context = _context.OutgoingOrder.Include(o => o.Client).Include(o => o.Inventory);
+            var webInventoryManagementSystem_IT703_2016012187Context = 
+                _context.OutgoingOrder
+                .Include(o => o.Client)
+                .Include(o => o.Inventory)
+                .Include(o=> o.Inventory.Product);
             return View(await webInventoryManagementSystem_IT703_2016012187Context.ToListAsync());
         }
 
@@ -64,6 +68,8 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(outgoingOrder);
+                var inv = _context.Inventory.Find(outgoingOrder.InventoryId);
+                if (inv != null) inv.Quantity -= outgoingOrder.Quantity;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

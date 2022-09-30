@@ -49,20 +49,8 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         // GET: Inventories/Create
         public IActionResult Create()
         {
-            ViewData["LocationId"] = from l in _context.Location
-                                     select new SelectListItem
-                                     {
-                                         Value = l.LocationId.ToString(),
-                                         Text = $"{l.LocationId} - {l.Name} @ {l.Address}"
-                                     };
-            ViewData["ProductId"] = from p in _context.Product
-                                    select new SelectListItem
-                                    {
-                                        Value = p.ProductId.ToString(),
-                                        Text = $"{p.ProductId} - {p.Name} {p.Brand.ShortName}:{p.Category.Name}"
-                                    };
-            //ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId");
-            //ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "ProductId", "ProductId");
+            ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId");
+            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId");
             return View();
         }
 
@@ -75,24 +63,22 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(inventory);
+                var checkIfItemExists = _context.Inventory.FirstOrDefault(i => (i.LocationId == inventory.LocationId && i.ProductId == inventory.ProductId));
+                if (checkIfItemExists is not null)
+                {
+                    var e = _context.Update(checkIfItemExists);
+                    e.Entity.Quantity += inventory.Quantity;
+                }
+                else
+                {
+                    _context.Add(inventory);
+                }
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", inventory.LocationId);
-            //ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "ProductId", "ProductId", inventory.ProductId);
-            ViewData["LocationId"] = from l in _context.Location
-                                     select new SelectListItem
-                                     {
-                                         Value = l.LocationId.ToString(),
-                                         Text = $"{l.LocationId} - {l.Name} @ {l.Address}"
-                                     };
-            ViewData["ProductId"] = from p in _context.Product
-                                    select new SelectListItem
-                                    {
-                                        Value = p.ProductId.ToString(),
-                                        Text = $"{p.ProductId} - {p.Name} {p.Brand.ShortName}:{p.Category.Name}"
-                                    };
+            ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", inventory.LocationId);
+            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", inventory.ProductId);
             return View(inventory);
         }
 
@@ -110,7 +96,7 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
                 return NotFound();
             }
             ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", inventory.LocationId);
-            ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "ProductId", "ProductId", inventory.ProductId);
+            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", inventory.ProductId);
             return View(inventory);
         }
 
@@ -146,22 +132,8 @@ namespace WebInventoryManagementSystem_IT703_2016012187.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", inventory.LocationId);
-            //ViewData["ProductId"] = new SelectList(_context.Set<Product>(), "ProductId", "ProductId", inventory.ProductId);
-
-            ViewData["LocationId"] = from l in _context.Location
-                                     select new SelectListItem
-                                     {
-                                         Value = l.LocationId.ToString(),
-                                         Text = $"{l.LocationId} - {l.Name} @ {l.Address}"
-                                     };
-            ViewData["ProductId"] = from p in _context.Product
-                                    select new SelectListItem
-                                    {
-                                        Value = p.ProductId.ToString(),
-                                        Text = $"{p.ProductId} - {p.Name} {p.Brand.ShortName}:{p.Category.Name}"
-                                    };
-
+            ViewData["LocationId"] = new SelectList(_context.Location, "LocationId", "LocationId", inventory.LocationId);
+            ViewData["ProductId"] = new SelectList(_context.Product, "ProductId", "ProductId", inventory.ProductId);
             return View(inventory);
         }
 

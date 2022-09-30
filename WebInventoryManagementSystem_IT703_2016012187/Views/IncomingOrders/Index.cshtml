@@ -43,13 +43,16 @@
                 @Html.DisplayFor(modelItem => item.ReceivedOn)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Supplier.SupplierId)
+                    @Html.DisplayFor(modelItem => item.Supplier.SupplierId) - @Html.DisplayFor(modelItem => item.Supplier.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Inventory.InventoryId)
+                    @Html.DisplayFor(modelItem => item.Inventory.InventoryId) - @Html.DisplayFor(modelItem => item.Inventory.Location.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IncomingOrderId">Edit</a> |
+                    @if (item.ReceivedOn == null) {
+                        <a asp-action="ConfirmArrival" asp-route-id="@item.IncomingOrderId">Confirm |</a>
+                    }
+                    <a asp-action="Edit" asp-route-id="@item.IncomingOrderId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IncomingOrderId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IncomingOrderId">Delete</a>
             </td>

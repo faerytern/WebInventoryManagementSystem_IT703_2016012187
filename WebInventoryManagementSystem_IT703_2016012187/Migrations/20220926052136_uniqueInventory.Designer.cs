@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebInventoryManagementSystem_IT703_2016012187.Data;
 
@@ -11,9 +12,10 @@ using WebInventoryManagementSystem_IT703_2016012187.Data;
 namespace WebInventoryManagementSystem_IT703_2016012187.Migrations
 {
     [DbContext(typeof(WebInventoryManagementSystem_IT703_2016012187Context))]
-    partial class WebInventoryManagementSystem_IT703_2016012187ContextModelSnapshot : ModelSnapshot
+    [Migration("20220926052136_uniqueInventory")]
+    partial class uniqueInventory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -43,10 +43,10 @@
                 @Html.DisplayFor(modelItem => item.ReceivedOn)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Client.ClientId)
+                @Html.DisplayFor(modelItem => item.Client.Name) > @Html.DisplayFor(modelItem => item.Client.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Inventory.InventoryId)
+                @Html.DisplayFor(modelItem => item.Quantity) of @Html.DisplayFor(modelItem => item.Inventory.Product.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OutgoingOrderId">Edit</a> |
